@@ -1,0 +1,20 @@
+.navbar.navbar-default
+	.bg-info
+		.container
+			.navbar-brand Альбом номер {{itemId}}
+			.btn.btn-primary.pull-right(ng-click='goBack()') Назад
+.container
+	.row
+		.col-xs-6.col-md-2(ng-repeat='photo in photos')
+			a.thumbnail(href='#' onclick='return false')
+				.caption
+					span.badge {{photo.id}}
+				img(ng-src='{{photo.thumbnailUrl}}' alt='{{photo.id}}' ng-click='showPic(photo)')
+				.caption
+					p {{photo.title}}
+.bg(ng-show='photo.show' ng-click='photo.show = false; $event.stopPropagation()')
+	.img-cont
+		img.img-responsive(ng-src='{{photo.url}}')
+		.btn.btn-primary(ng-click='photo.show = false') Закрыть
+		.caption
+			p {{photo.title}}

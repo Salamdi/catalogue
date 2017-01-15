@@ -1,0 +1,11 @@
+.navbar.navbar-default
+	.bg-info
+		.container
+			.navbar-brand Вход в каталог
+form(name='loginForm')
+	.form-group
+		label(for='login') Введите Ваш логин
+		input.form-control#login(type='text' name='login' placeholder='Логин' ng-model='name' ng-required='true')
+	.form-group
+		input.btn.btn-default(type='submit' value='Войти' ng-click='login()' ng-disabled='loginForm.$invalid')
+		span(ng-show='loginForm.login.$touched && loginForm.login.$invalid') Введите правильный логин

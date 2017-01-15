@@ -1,0 +1,11 @@
+.navbar.navbar-default
+	.bg-info
+		.container
+			.navbar-brand Здравствуйте, {{name}}!
+.container
+	.flex-container
+		.flex-item(ng-repeat='item in catalogue')
+			.inner.bg-danger(ng-click='details()')
+				h3
+					span.label.label-danger {{item.id}}
+				p.text-danger {{item.title}}

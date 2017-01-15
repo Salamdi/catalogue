@@ -1,0 +1,107 @@
+@mixin posCenter() {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+input.ng-invalid.ng-touched{
+  border: 2px solid #d9534f;
+}
+
+input[disabled="disabled"]{
+  opacity: 0.4;
+}
+
+form {
+	min-width: 300px;
+	max-width: 50%;
+	@include posCenter();
+
+	.btn[disabled] {
+		cursor: auto;
+	}
+
+	span {
+		color: #d9534f;
+		float: right;
+	}
+}
+
+.flex-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+
+	.flex-item {
+		width: 20%;
+		height: 200px;
+		overflow: hidden;
+		position: relative;
+
+		.inner {
+			width: 80%;
+			height: 80%;
+			@include posCenter();
+			border-radius: 10px;
+			text-align: center;
+			transition: all 0.15s ease-in-out;
+			cursor: pointer;
+			&:hover {
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+
+	@media screen and (max-width: 991px) {
+		.flex-item {
+			width: 50%;
+		}
+	}
+
+}
+
+.navbar .btn-primary {
+	margin-top: 8px;
+}
+
+.caption p {
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.bg {
+	background-color: rgba(0,0,0,0.65);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+
+.img-cont {
+	width: 600px;
+	height: 600px;
+	max-width: 95%;
+	max-height: 95%;
+
+	@include posCenter();
+
+	.caption {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}
+
+.bg .btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
