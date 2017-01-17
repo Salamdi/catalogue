@@ -1,28 +1,31 @@
-require('angular');
-require('angular-ui-router');
+require('bootstrap/dist/css/bootstrap.css');
+require('./styles/style.scss');
 
-const catApp = angular.module('catApp', ['ui.router']);
+var angular = require('angular');
+var uirouter = require('angular-ui-router');
+
+const catApp = angular.module('catApp', [uirouter]);
 
 
-//config
+//config 
 
 catApp.config(['$stateProvider', function($stateProvider) {
 	$stateProvider
 	.state('login', {
 		url: '',
-		templateUrl: './login.html',
+		template: require('./temp/login.pug'),
 		controller: 'loginController',
 		controllerAs: 'logCtrl'
 	})
 	.state('catalogue', {
 		url: '/:login',
-		templateUrl: './catalogue.html',
+		template: require('./temp/catalogue.pug'),
 		controller: 'catalogueController',
 		controllerAs: 'catCtrl'
 	})
 	.state('item', {
 		url: '/:login/:itemId',
-		templateUrl: './details.html',
+		template: require('./temp/details.pug'),
 		controller: 'detailsController',
 		controllerAs: 'detCtr'
 	});
@@ -31,26 +34,35 @@ catApp.config(['$stateProvider', function($stateProvider) {
 
 // controllers
 
-catApp.controller('loginController', ['$scope', '$location', '$http', function($scope, $location, $http) {
+catApp.controller('loginController', ['$scope', '$http', '$state', function($scope, $http, $state) {
 	$scope.login = function() {
-		$location.path('/' + $scope.name);
-	}
+		$state.go('catalogue', {login: $scope.name});
+	};
 }]);
 
-catApp.controller('catalogueController', ['$scope', '$location', '$http', '$stateParams', function($scope, $location, $http, $stateParams) {
+catApp.controller('catalogueController', ['$scope', '$http', '$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+	if (!$stateParams.login) $state.go('login');
 	$scope.name = $stateParams.login;
 	$http.get('https://jsonplaceholder.typicode.com/albums', {cache: true}).then(function(res) {
 		$scope.catalogue = res.data;
 	}, function(res) {
 		console.log(res);
 	});
+
 	$scope.details = function() {
-		$location.path('/' + $stateParams.login + '/' + (this.$index + 1));
-	}
+		$state.go('item', {login: $stateParams.login, itemId: this.$index + 1});
+	};
+
+	$scope.logout = function() {
+		$state.go('login');
+	};
+
 }]);
 
-catApp.controller('detailsController', ['$scope', '$stateParams', '$http', '$location', function($scope, $stateParams, $http, $location) {
+catApp.controller('detailsController', ['$scope', '$stateParams', '$http', '$state', function($scope, $stateParams, $http, $state) {
+
 	$scope.itemId = $stateParams.itemId;
+
 	$http.get('https://jsonplaceholder.typicode.com/photos', {cache: true}).then(function(res) {
 		$scope.photos = [];
 		res.data.forEach(function(photo) {
@@ -58,11 +70,22 @@ catApp.controller('detailsController', ['$scope', '$stateParams', '$http', '$loc
 				$scope.photos.push(photo);
 		});
 	});
+
 	$scope.showPic = function(photo) {
 		$scope.photo = photo;
-		$scope.photo.show = true;
+		$scope.show = true;
 	};
+
 	$scope.goBack = function() {
-		$location.path('/' + $stateParams.login);
-	}
+		$state.go('catalogue', {login: $stateParams.login});
+	};
+
+	$scope.showNext = function() {
+		$scope.photo = $scope.photos[$scope.photos.indexOf($scope.photo) + 1];
+	};
+
+	$scope.showPrev = function() {
+		$scope.photo = $scope.photos[$scope.photos.indexOf($scope.photo) - 1];
+	};
+
 }])

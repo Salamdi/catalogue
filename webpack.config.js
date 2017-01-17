@@ -11,19 +11,25 @@ module.exports = {
 			{
 				test: /\.js$/,
 				exclude: [/node_modules/, /temp\.js/, /style\.js/],
-				loader: 'babel-loader',
-				query: {
-					presets: ['es2015']
-				}
+				loader: 'babel-loader'
+			},
+			{
+				test: /\.pug$/,
+				loader: 'pug-html-loader'
+			},
+			{
+				test: /\.css$/,
+				loader: 'style-loader!css-loader'
 			},
 			{
 				test: /\.scss$/,
-				loader: ExtractTextPlugin('sass-loader')
-			}
+				loader: 'style-loader!css-loader!sass-loader'
+			},
+			{
+		        test: /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+		        loader: 'url'
+		    }
 		]
 	},
-	plugins: [
-		new ExtractTextPlugin('.docs/style.css')
-	],
 	watch: true
 };

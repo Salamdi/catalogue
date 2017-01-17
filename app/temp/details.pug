@@ -2,7 +2,7 @@
 	.bg-info
 		.container
 			.navbar-brand Альбом номер {{itemId}}
-			.btn.btn-primary.pull-right(ng-click='goBack()') Назад
+			button.btn.btn-primary.pull-right(ng-click='goBack()') Назад
 .container
 	.row
 		.col-xs-6.col-md-2(ng-repeat='photo in photos')
@@ -12,9 +12,14 @@
 				img(ng-src='{{photo.thumbnailUrl}}' alt='{{photo.id}}' ng-click='showPic(photo)')
 				.caption
 					p {{photo.title}}
-.bg(ng-show='photo.show' ng-click='photo.show = false; $event.stopPropagation()')
-	.img-cont
+.bg(ng-show='show' ng-click='show = false')
+	.img-cont(ng-click='$event.stopPropagation()')
+		button.btn.btn-default.left(aria-hidden='true' ng-click='showPrev(); $event.stopPropagation();' ng-disabled='photo.id % 50 == 1')
+			span.glyphicon.glyphicon-menu-left
+		button.btn.btn-default.right(aria-hidden='true' ng-click='showNext(); $event.stopPropagation();' ng-disabled='photo.id % 50 == 0')
+			span.glyphicon.glyphicon-menu-right
 		img.img-responsive(ng-src='{{photo.url}}')
-		.btn.btn-primary(ng-click='photo.show = false') Закрыть
+		button.btn.btn-primary(ng-click='show = false') Закрыть
 		.caption
-			p {{photo.title}}
+			p.text-center {{photo.title}} 
+				span.badge {{photo.id}}

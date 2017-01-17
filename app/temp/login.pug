@@ -8,4 +8,4 @@ form(name='loginForm')
 		input.form-control#login(type='text' name='login' placeholder='Логин' ng-model='name' ng-required='true')
 	.form-group
 		input.btn.btn-default(type='submit' value='Войти' ng-click='login()' ng-disabled='loginForm.$invalid')
-		span(ng-show='loginForm.login.$touched && loginForm.login.$invalid') Введите правильный логин
+		span(ng-show='loginForm.login.$touched && loginForm.login.$invalid') Введите действующий логин
